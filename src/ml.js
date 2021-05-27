@@ -828,12 +828,17 @@ function updateTriggers() {
   });
 
   removedGestures.forEach(function (gesture) {
-    // remove the trigger element
-    document.querySelector(`.action.${gesture}`).remove();
 
-    let timerOption = timerTrigger.querySelector(`option[value="${gesture}"]`);
-    if (timerOption) {
-      timerOption.remove();
+    // remove the trigger element if the gesture has been removed completely
+    // (note that triggers still remain if samples have been removed by gesture has not been removed)
+    if(!document.querySelector(`#custom-gestures #${gesture}`)){
+      document.querySelector(`.action.${gesture}`).remove();
+      
+      // remove timer
+      let timerOption = timerTrigger.querySelector(`option[value="${gesture}"]`);
+      if (timerOption) {
+        timerOption.remove();
+      }
     }
   });
 
@@ -1032,7 +1037,7 @@ function toggleDebuggerExplanation(){
 function logAddedSample(gestureName) {
   let user = getUser();
   let samples = getNumSamples(gestureName);
-  mixpanel.track('Add Sample', { 'Gesture Name': gestureName, 'Samples': samples });
+  mixpanel.track('Add Sample',  { 'Gesture Name': gestureName, 'Samples': samples });
 }
 
 function logRemovedSample(gestureName) {

@@ -290,7 +290,7 @@ function removeData(id) {
     // update debug if needed
     if (shouldDebug) {
       let row = document.querySelector(`#debug-container .debug-row.id-${id}`);
-      row.remove();
+      if(row) { row.remove(); }
     }
   }
 }
